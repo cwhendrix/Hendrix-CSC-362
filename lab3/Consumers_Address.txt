@@ -1,0 +1,24 @@
+FIELD SPECIFICATIONS
+
+FIELD NAME: Address
+PARENT TABLE: Consumer
+SPECIFICATION TYPE: Unique
+SOURCE SPECIFICATION: N/A
+ALIAS(ES): N/A
+SHARED BY: N/A
+DESCRIPTION: The street address of the consumer who is associated with the record. Do not include
+            city, state, ZIP, etc. here; they receive their own field.
+
+DATA TYPE: VARCHAR(32)
+LENGTH: 32
+DECIMAL PLACES: N/A
+CHARACTER SUPPORT: Letters, Numbers, Keyboard, Special
+
+KEY TYPE: Non
+KEY STRUCTURE: Simple
+UNIQUENESS: Unique
+NULL SUPPORT: No Nulls
+VALUES ENTERED BY: ???
+REQUIRED VALUE: Yes
+EDIT RULE: Enter Now, Edits Allowed
+RANGE OF VALUES: Any string which fits within the character limit

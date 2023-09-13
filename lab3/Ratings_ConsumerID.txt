@@ -1,0 +1,25 @@
+FIELD SPECIFICATIONS
+
+FIELD NAME: Consumer ID
+PARENT TABLE: Ratings
+SPECIFICATION TYPE: Replica
+SOURCE SPECIFICATION: Consumers.ConsumerID
+ALIAS(ES): N/A
+SHARED BY: N/A
+DESCRIPTION: A foreign key meant to link together the Ratings table and the Consumers table.
+            A rating's Consumer ID indicates the consumer which posted the rating.
+            One consumer can have multiple ratings, but one rating can only have one consumer.
+
+DATA TYPE:  
+LENGTH: 
+DECIMAL PLACES: 
+CHARACTER SUPPORT: 
+
+KEY TYPE: 
+KEY STRUCTURE: 
+UNIQUENESS: 
+NULL SUPPORT: 
+VALUES ENTERED BY: 
+REQUIRED VALUE: 
+EDIT RULE: 
+RANGE OF VALUES: 

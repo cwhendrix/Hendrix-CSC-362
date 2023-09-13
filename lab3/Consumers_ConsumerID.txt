@@ -1,0 +1,23 @@
+FIELD SPECIFICATIONS
+
+FIELD NAME: Consumer ID
+PARENT TABLE: Consumers
+SPECIFICATION TYPE: Unique
+SOURCE SPECIFICATION: N/A
+ALIAS(ES): N/A
+SHARED BY: N/A
+DESCRIPTION: A primary key for the Consumer table; each Consumer ID uniquely identifies a different consumer in the table.
+
+DATA TYPE: INT 
+LENGTH: Standard
+DECIMAL PLACES: 0
+CHARACTER SUPPORT: Numbers ONLY
+
+KEY TYPE: Primary
+KEY STRUCTURE: Simple
+UNIQUENESS: Unique
+NULL SUPPORT: No Nulls
+VALUES ENTERED BY: ???
+REQUIRED VALUE: Yes
+EDIT RULE: Enter now, Edits not allowed
+RANGE OF VALUES: Positive integers
