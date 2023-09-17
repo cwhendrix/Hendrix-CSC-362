@@ -1,15 +1,18 @@
 FIELD SPECIFICATIONS
 
-FIELD NAME: Consumer ID
+FIELD NAME: consumer_id
 PARENT TABLE: Ratings
+LABEL: Consumer ID
 SPECIFICATION TYPE: Replica
 SOURCE SPECIFICATION: Consumers.ConsumerID
 ALIAS(ES): N/A
 SHARED BY: N/A
-DESCRIPTION: A foreign key meant to link together the Ratings table and the Consumers table.
-            A rating's Consumer ID indicates the consumer which posted the rating.
-            One consumer can have multiple ratings, but one rating can only have one consumer.
+DESCRIPTION: A foreign key which links together the Ratings table and the Consumers table.
+            A rating's Consumer ID indicates the consumer which wrote the rating.
+            One consumer can have multiple ratings, but one rating can only have one consumer
+            (i.e. one rating can only be written by one consumer).
 
+(The rest of the FS sheet is left blank due to this fields' status as a Foreign Key.)
 DATA TYPE:  
 LENGTH: 
 DECIMAL PLACES: 

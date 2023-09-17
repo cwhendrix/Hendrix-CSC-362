@@ -1,12 +1,13 @@
 FIELD SPECIFICATIONS
 
-FIELD NAME: Movie Title
+FIELD NAME: movie_title
 PARENT TABLE: Movies
+LABEL: Title
 SPECIFICATION TYPE: Unique
 SOURCE SPECIFICATION: N/A
 ALIAS(ES): N/A
 SHARED BY: N/A
-DESCRIPTION: Movie Title indicates the title of each movie in the Movies table. 
+DESCRIPTION: The title of each movie (represented by a single record) in the Movies table. 
 
 DATA TYPE:  VARCHAR(32)
 LENGTH: 32

@@ -5,6 +5,8 @@
 
     This script creates the movie_ratings database, a database designed to store information about movie ratings.
     Sample data has been inserted into the three constituent tables.
+    Later, the database is wiped and re-implemented in order to fix a major design flaw present in the original
+    design (the inclusion of a multiplart field).
 */
 
 /* Drop the existing database, if it happens to exist. */
@@ -94,10 +96,10 @@ NATURAL JOIN consumers;
 -- the linking table will be called movie_genres and the validation table will be genres.
 
 /******* REDESIGNED TABLES *******/
-/* Drop the existing database, if it happens to exist. */
+/* Drop the existing database so we can recreate it, new and improved. */
 DROP DATABASE IF EXISTS movie_ratings;
 
-/* Create movie_ratings database! */
+/* Create (new) movie_ratings database */
 CREATE DATABASE movie_ratings;
 USE movie_ratings;
 
@@ -110,6 +112,8 @@ CREATE TABLE movies (
 );
 
 /* Create Genres table */
+/* This is the validation table for the movie genres, and is a part of the
+   solution to prevent the need for a multipart field in the movies table. */
 CREATE TABLE genres (
     PRIMARY KEY (genre_id),
     genre_id            INT         AUTO_INCREMENT,
@@ -117,6 +121,8 @@ CREATE TABLE genres (
 );
 
 /* Create Movie Genres Table */
+/* This is the linking table which will prevent the need for a multipart field
+   in the movies table. */
 CREATE TABLE movie_genres (
     FOREIGN KEY (movie_id) REFERENCES movies(movie_id),
     FOREIGN KEY (genre_id) REFERENCES genres(genre_id),
