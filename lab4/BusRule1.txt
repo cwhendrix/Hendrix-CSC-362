@@ -1,0 +1,26 @@
+=============== BUSINESS RULE ===============
+
+=============== RULE INFORMATION ===============
+STATEMENT: Carpets sold in the store are NEVER sold at a loss (that is, sale_price < carpet_purchase_price) UNLESS
+           that rug has been in the store's inventory for AT LEAST two years.
+CONSTRAINT: When attempting to put in the price of a sale (sale_price) we must check the carpet_acq_date. If that date
+            was greater than or equal to 2 years ago, the sale_price can be any valid number. If not, then the sale_price
+            MUST be greater than or equal to the associated carpet_purchase_price in the Carpets table.
+TYPE: Application Oriented
+CATEGORY: --
+TEST ON: Insert
+
+=============== STRUCTURES AFFECTED ===============
+FIELD NAMES: sale_price, carpet_acq_date, carpet_purchase_price
+TABLE NAMES: Carpets, Sales
+
+=============== FIELD ELEMENTS AFFECTED ===============
+PHYSICAL ELEMENTS: N/A
+LOGICAL ELEMENTS: Range of Values
+
+=============== RELATIONSHIP CHARACTERISTICS AFFECTED ===============
+DELETION RULE: N
+TYPE OF PARTICIPATION: N
+DEGREE OF PARTICIPATION: N
+
+=============== ACTION TAKEN ===============

@@ -1,0 +1,26 @@
+=============== BUSINESS RULE ===============
+
+=============== RULE INFORMATION ===============
+STATEMENT: Any customer may only have a maximum of 4 rentals at a single time.
+CONSTRAINT: For each customer_id, they may only be related to a maximum of 4 records
+            at a time in the Rentals table where the rental_date is prior to the
+            current date AND the rental_return_date is NULL (they haven't returned
+            that carpet yet)
+TYPE: Database Oriented
+CATEGORY: Relationship Specific
+TEST ON: Insert
+
+=============== STRUCTURES AFFECTED ===============
+FIELD NAMES: rental_date, rental_return_date, customer_id
+TABLE NAMES: Rentals
+
+=============== FIELD ELEMENTS AFFECTED ===============
+PHYSICAL ELEMENTS:
+LOGICAL ELEMENTS:
+
+=============== RELATIONSHIP CHARACTERISTICS AFFECTED ===============
+DELETION RULE: N
+TYPE OF PARTICIPATION: N
+DEGREE OF PARTICIPATION: Y
+
+=============== ACTION TAKEN ===============

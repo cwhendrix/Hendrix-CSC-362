@@ -1,0 +1,23 @@
+=============== BUSINESS RULE ===============
+
+=============== RULE INFORMATION ===============
+STATEMENT:
+CONSTRAINT:
+TYPE:
+CATEGORY:
+TEST ON:
+
+=============== STRUCTURES AFFECTED ===============
+FIELD NAMES:
+TABLE NAMES:
+
+=============== FIELD ELEMENTS AFFECTED ===============
+PHYSICAL ELEMENTS:
+LOGICAL ELEMENTS:
+
+=============== RELATIONSHIP CHARACTERISTICS AFFECTED ===============
+DELETION RULE: Y/N
+TYPE OF PARTICIPATION: Y/N
+DEGREE OF PARTICIPATION: Y/N
+
+=============== ACTION TAKEN ===============

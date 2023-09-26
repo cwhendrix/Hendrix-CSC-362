@@ -1,0 +1,24 @@
+=============== BUSINESS RULE ===============
+
+=============== RULE INFORMATION ===============
+STATEMENT: Rentals may not overlap.
+CONSTRAINT: Within the Rentals table, the rental_date to rental_return_date range cannot overlap
+            for any records which share the same carpet_id.
+TYPE: Application Oriented
+CATEGORY: --
+TEST ON: Insert
+
+=============== STRUCTURES AFFECTED ===============
+FIELD NAMES: carpet_id, rental_date, rental_return Date
+TABLE NAMES: Rentals
+
+=============== FIELD ELEMENTS AFFECTED ===============
+PHYSICAL ELEMENTS: N/A
+LOGICAL ELEMENTS: Range of Values
+
+=============== RELATIONSHIP CHARACTERISTICS AFFECTED ===============
+DELETION RULE: N
+TYPE OF PARTICIPATION: N
+DEGREE OF PARTICIPATION: N
+
+=============== ACTION TAKEN ===============
