@@ -34,9 +34,10 @@ CREATE TABLE carpets (
     carpet_id       INT         AUTO_INCREMENT,
     carpet_country  VARCHAR(32) NOT NULL,
     carpet_style    VARCHAR(32) NOT NULL,
+    carpet_year     VARCHAR(4)  NOT NULL,
     carpet_material VARCHAR(32) NOT NULL,
-    carpet_length   INT         NOT NULL,   -- in cm
-    carpet_width    INT         NOT NULL,   -- in cm
+    carpet_lengthft INT         NOT NULL,
+    carpet_widthft  INT         NOT NULL,
     carpet_acq_date DATE        NOT NULL,
     carpet_purchase FLOAT       NOT NULL,
     carpet_markup   FLOAT       NOT NULL,
@@ -83,4 +84,23 @@ CREATE TABLE returns (
     rental_due_date DATETIME    NOT NULL,
     rental_return   DATETIME
 );
-SHOW CREATE TABLE returns;
+-- SHOW CREATE TABLE returns;
+
+/* Put in values :) */
+INSERT INTO carpet_countries (carpet_country)
+VALUES  ('Iran'),
+        ('India'),
+        ('Turkey');
+
+INSERT INTO carpet_styles (carpet_style)
+VALUES  ('Ushak'),
+        ('Tabriz'),
+        ('Agra');
+
+INSERT INTO carpet_materials (carpet_material)
+VALUES  ('Wool'),
+        ('Silk');
+
+INSERT INTO carpets (carpet_country, carpet_style, carpet_year, carpet_material, carpet_lengthft, carpet_widthft, carpet_acq_date, carpet_purchase, carpet_markup, carpet_active)
+VALUES  ('Turkey', 'Ushak', '1925', 'Wool', 5, 7, '2017-04-06', 625, 100, TRUE),
+        ('Iran', 'Tabriz', '1910', 'Silk', 10, 14, '2017-04-06', 28000, 75, TRUE);
