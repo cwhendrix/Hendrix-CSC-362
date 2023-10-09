@@ -13,4 +13,5 @@ NATURAL JOIN regions
 NATURAL JOIN crags
 NATURAL JOIN climbs
 LEFT JOIN climb_grades ON climb_grade = grade_id
-WHERE owner_name = "John and Elizabeth Muir";
+WHERE owner_name = "John and Elizabeth Muir"
+GROUP BY grade_str;

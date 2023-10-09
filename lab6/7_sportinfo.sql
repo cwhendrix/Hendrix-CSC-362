@@ -8,8 +8,9 @@
 
 USE red_river_climbs;
 
-SELECT climb_name, climb_bolts, climber_handle FROM climbers
+SELECT climb_name, climb_bolts, GROUP_CONCAT(climber_handle) FROM climbers
 NATURAL JOIN first_ascents
 NATURAL JOIN climbs
 LEFT JOIN sport_climbs ON first_ascents.climb_id = sport_climbs.climb_id
-WHERE climb_bolts IS NOT NULL;
+WHERE climb_bolts IS NOT NULL
+GROUP BY climb_name;
