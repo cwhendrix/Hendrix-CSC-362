@@ -22,6 +22,15 @@
     while ($dbname = $result->fetch_array()) {
         echo $dbname['Database'] . "<br>";
     }
-    $conn->close();
+?>
+<body>
+<form action="details.php" method="post">
+            <label for="db">Database:</label>
+            <input name="db" id="db" type="text">
+
+            <button type="submit">Submit</button>
+        </form>
+</body>
+<?php
     echo "<h2>Check back soon!</h2>";
 ?>
