@@ -2,11 +2,13 @@
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-    $dbhost = 'localhost';
-    $dbuser = 'cooperhendrix'; // Hard-coding credentials directly in code is not ideal: (1) we might have to 
-    $dbpass = 'charizard';       // change them in multiple places, and (2) this creates security concerns. 
-                                // We'll fix that in the next lab.
-    $conn = new mysqli($dbhost, $dbuser, $dbpass);
+    $config = parse_ini_file('/home/cooperhendrix/mysqli.ini');
+    $dbname = 'red_river_climbs';
+    $conn = new mysqli(
+            $config['mysqli.default_host'],
+            $config['mysqli.default_user'],
+            $config['mysqli.default_pw'],
+            $dbname);
     if ($conn->connect_errno) {
         echo "Error: Failed to make a MySQL connection, here is why: ". "<br>";
         echo "Errno: " . $conn->connect_errno . "\n";
