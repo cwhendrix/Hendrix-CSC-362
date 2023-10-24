@@ -18,11 +18,41 @@
                 echo "Connected Successfully!" . "<br>";
                 echo "YAY!" . "<br>";
             }
-    echo "Lab 8 Test";
 
-    $result = $conn->query("SELECT instruments.instrument_id, instruments.instrument_type, students.student_name AS checked_out_to FROM instruments
+            $result = $conn->query("SELECT instruments.instrument_id, instruments.instrument_type, students.student_name AS checked_out_to FROM instruments
                             LEFT JOIN open_rentals ON instruments.instrument_id = open_rentals.instrument_id
                             LEFT JOIN students ON open_rentals.student_id = students.student_id");
+
+    if (isset($_POST["delete"])) {
+        //echo "POST IS SET";
+        $deletion = $conn->prepare("DELETE FROM instruments where instrument_id = ?");
+        $deletion->bind_param('i', $id);
+        $idnums = $result->fetch_all();
+        for ($i = 0; $i<$result->num_rows; $i++) {
+            $id = $idnums[$i][0];
+            if (isset($_POST["checkbox$id"])) {
+                // echo $id;
+                $deletion->execute();
+            }
+        }
+        header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
+    }
+
+    if (isset($_POST["addition"])) {
+        $addition = $conn->query("INSERT INTO instruments (instrument_type)
+        VALUES ('Guitar'),      -- 1
+               ('Trumpet'),     -- 2
+               ('Flute'),       -- 3
+               ('Theramin'),    -- 4
+               ('Violin'),      -- 5
+               ('Tuba'),        -- 6
+               ('Melodica'),    -- 7
+               ('Trombone'),    -- 8
+               ('Melodica'),    -- 9
+               ('Keyboard'),    -- 10
+               ('Melodica');    -- 11");
+        header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
+    }
 
 ?>
 
@@ -45,10 +75,10 @@ function result_to_html_table($result) {
         <table>
         <thead>
         <tr>
-            <th> <?php echo "Delete?" ?> </th>
         <?php for ($i=0; $i<$num_cols; $i++){ ?>
             <td><b><?php echo $fields[$i]->name; ?></b></td>
         <?php } ?>
+        <th> <?php echo "Delete?" ?> </th>
         </tr>
         </thead>
         
@@ -57,17 +87,22 @@ function result_to_html_table($result) {
         <?php for ($i=0; $i<$num_rows; $i++){ ?>
             <?php $id = $result_body[$i][0]; ?>
             <tr>     
-                <td><input type="checkbox"
-                name="checkbox<?php echo $id; ?>"
-                value=<?php echo $id; ?>    /></td>
             <?php for($j=0; $j<$num_cols; $j++){ ?>
                 <td><?php echo $result_body[$i][$j]; ?></td>
             <?php } ?>
+            <td><input type="checkbox"
+                name="checkbox<?php echo $id; ?>"
+                value=<?php echo $id; ?>    /></td>
             </tr>
         <?php } ?>
         </tbody></table>
 <?php } ?>
-<form action="deleteFromTable.php" method=POST>
+
+<form action="manage_instruments.php" method=POST>
 <?php result_to_html_table($result); ?>
-<input type="submit" value="Delete Selected Records" method=POST/>
+<input type="submit" value="Delete Selected Records" name = "delete" method=POST/>
+</form>
+
+<form action="manage_instruments.php" method=POST>
+<input type="submit" value="Add To Table" name = "addition" method=POST/>
 </form>
