@@ -102,6 +102,19 @@
 <input type="submit" value="Light/Dark Mode Toggle" name = "lightdark" method=POST/>
 </form>
 
+<?php 
+    if (isset($_POST["username"])) {
+        echo "Welcome ".$_POST["username"];
+    }
+?>
+
+<form action="manage_instruments.php" method="POST">
+            <label for="username">Enter Username:</label>
+            <input name="username" id="db" type="text">
+
+            <button type="submit">Submit</button>
+        </form>
+
 
 <?php
 
