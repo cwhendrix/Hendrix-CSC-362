@@ -23,6 +23,24 @@
                             LEFT JOIN open_rentals ON instruments.instrument_id = open_rentals.instrument_id
                             LEFT JOIN students ON open_rentals.student_id = students.student_id");
 
+    session_start();
+    
+    if (!array_key_exists('num_deleted', $_SESSION)) {
+        $_SESSION['num_deleted'] = 0;
+    }
+
+    if (isset($_POST['logout'])){
+        session_unset();
+        header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
+        exit();
+    }
+
+    if (isset($_POST['username'])) {
+        $_SESSION['username'] = $_POST['username'];
+        header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
+        exit();
+        }
+
     if (isset($_POST["delete"])) {
         //echo "POST IS SET";
         $deletion = $conn->prepare("DELETE FROM instruments where instrument_id = ?");
@@ -33,6 +51,9 @@
             if (isset($_POST["checkbox$id"])) {
                 // echo $id;
                 $deletion->execute();
+                if (isset($_SESSION['num_deleted'])){
+                    $_SESSION['num_deleted']++;
+                }
             }
         }
         header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
@@ -103,18 +124,22 @@
 </form>
 
 <?php 
-    if (isset($_POST["username"])) {
-        echo "Welcome ".$_POST["username"];
-    }
-?>
-
-<form action="manage_instruments.php" method="POST">
+    if (isset($_SESSION["username"])) {
+        echo "Welcome ".$_SESSION["username"]; ?>
+        <form action="manage_instruments.php" method="POST">
+            <input type="submit" value="Logout" name = "logout" method=POST/>
+        </form>
+        <?php
+    } else { ?>
+        <form action="manage_instruments.php" method="POST">
             <label for="username">Enter Username:</label>
             <input name="username" id="db" type="text">
 
             <button type="submit">Submit</button>
         </form>
-
+        <?php
+    }
+?>
 
 <?php
 
@@ -157,7 +182,16 @@ function result_to_html_table($result) {
         <?php } ?>
         </tbody></table>
 <?php } ?>
-
+<p>
+You have deleted 
+<?php 
+if (isset($_SESSION['num_deleted']) && $_SESSION['num_deleted'] > 0){
+    echo $_SESSION['num_deleted'] . " record(s) this session.";
+} else {
+    echo "no records this session.";
+}
+?>
+</p>
 <form action="manage_instruments.php" method=POST>
 <?php result_to_html_table($result); ?>
 <input type="submit" value="Delete Selected Records" name = "delete" method=POST/>
