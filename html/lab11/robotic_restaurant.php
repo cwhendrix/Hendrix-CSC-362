@@ -24,19 +24,26 @@
 
     if (isset($_POST["order"])) {
         echo "ORDER SET\n";
+        if (isset($_POST["fname"]) && isset($_POST["lname"]) && isset($_POST["lat"]) && isset($_POST["lon"])) {
+            echo "Create New Customer\n";
+            $customeradd = $conn->prepare("INSERT INTO Customers (CustomerFirstName, CustomerLastName, CustomerEmail, CustomerDefaultLat, CustomerDefaultLong)
+            VALUES  (?, ?, ?, ?, ?)");
+            $new_fname = $_POST["fname"];
+            $new_lname = $_POST["lname"];
+            $new_email = "example@gmail.com";
+            $new_lat = floatval($_POST["lat"]);
+            $new_lon = floatval($_POST["lon"]);
+            $customeradd->bind_param("sssdd", $new_fname, $new_lname, $new_email, $new_lat, $new_lon);
+            $customeradd->execute();
+            header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
+        }
         for ($i = 0; $i <= $getmenu->num_rows; $i++) { 
             if (isset($_POST["quantity$i"])) {
-                echo $_POST["quantity$i"]."\n";
+                //echo $_POST["quantity$i"]."\n";
+                for ($j = 1; $j <= intval($_POST["quantity$i"]); $j++) {
+                    echo "Order 1 of ID $i\n";
+                }
             }
-        }
-        if (isset($_POST["name"])) {
-            echo $_POST["name"]."\n";
-        }
-        if (isset($_POST["lat"])) {
-            echo $_POST["lat"]."\n";
-        }
-        if (isset($_POST["lon"])) {
-            echo $_POST["lon"]."\n";
         }
     }
 ?>
@@ -90,8 +97,10 @@ function result_to_html_table($result) {
 <h2>Menu</h2>
 <form action="robotic_restaurant.php" method=POST>
 <?php result_to_html_table($getmenu); ?>
-<label for="name">Name:</label>
-<input name="name" id="db" type="text">
+<label for="fname">First Name:</label>
+<input name="fname" id="db" type="text">
+<label for="lname">Last Name:</label>
+<input name="lname" id="db" type="text">
 <label for="lat">Latitude:</label>
 <input name="lat" id="db" type="text">
 <label for="lon">Longitude:</label>
