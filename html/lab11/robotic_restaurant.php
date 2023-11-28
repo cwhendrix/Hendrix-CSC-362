@@ -23,9 +23,9 @@
                                 LEFT JOIN Customers USING (CustomerID)");
 
     if (isset($_POST["order"])) {
-        echo "ORDER SET\n";
+        // echo "ORDER SET\n";
         if (isset($_POST["fname"]) && isset($_POST["lname"]) && isset($_POST["lat"]) && isset($_POST["lon"])) {
-            echo "Create New Customer\n";
+            // echo "Create New Customer\n";
             $customeradd = $conn->prepare("INSERT INTO Customers (CustomerFirstName, CustomerLastName, CustomerEmail, CustomerDefaultLat, CustomerDefaultLong)
             VALUES  (?, ?, ?, ?, ?)");
             $new_fname = $_POST["fname"];
@@ -35,8 +35,10 @@
             $new_lon = floatval($_POST["lon"]);
             $customeradd->bind_param("sssdd", $new_fname, $new_lname, $new_email, $new_lat, $new_lon);
             $customeradd->execute();
+            // echo mysqli_insert_id($conn);    THIS GRABS THE LAST INSERTED ID INTO THE DATABASE SO YOU WILL NEED THIS
             header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
         }
+        $customer_id = mysqli_insert_id($conn);
         for ($i = 0; $i <= $getmenu->num_rows; $i++) { 
             if (isset($_POST["quantity$i"])) {
                 //echo $_POST["quantity$i"]."\n";
@@ -59,7 +61,7 @@ function result_to_html_table($result) {
     $fields = $result->fetch_fields();
     ?>
     <!-- Description of table - - - - - - - - - - - - - - - - - - - - -->
-    <p>This table has <?php echo $num_rows; ?> rows and <?php echo $num_cols; ?> columns.</p>
+    <!-- <p>This table has <?php //echo $num_rows; ?> rows and <?php //echo $num_cols; ?> columns.</p> -->
     
     <!-- Begin header - - - - - - - - - - - - - - - - - - - - -->
     <table>
@@ -92,7 +94,6 @@ function result_to_html_table($result) {
     <title>Robotic Restaurant</title>
 </head>
 <h1>Alice's Robotic Restaurant!</h1>
-
 
 <h2>Menu</h2>
 <form action="robotic_restaurant.php" method=POST>
