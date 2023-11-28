@@ -28,6 +28,7 @@
             // echo "Create New Customer\n";
             $customeradd = $conn->prepare("INSERT INTO Customers (CustomerFirstName, CustomerLastName, CustomerEmail, CustomerDefaultLat, CustomerDefaultLong)
             VALUES  (?, ?, ?, ?, ?)");
+            // $customeradd = $conn->prepare("CALL add_customer(?, ?, ?, ?, ?)");
             $new_fname = $_POST["fname"];
             $new_lname = $_POST["lname"];
             $new_email = "example@gmail.com";
@@ -39,6 +40,11 @@
             header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
         }
         $customer_id = mysqli_insert_id($conn);
+        $orderadd = $conn->prepare("INSERT INTO Orders (FranchiseID, CustomerID, DeliveryLocationLat, DeliveryLocationLon)
+        VALUES  (1, ?, ?, ?)");
+        $orderadd->bind_param('idd', $customer_id, $new_lat, $new_lon);
+        $orderadd->execute();
+        
         for ($i = 0; $i <= $getmenu->num_rows; $i++) { 
             if (isset($_POST["quantity$i"])) {
                 //echo $_POST["quantity$i"]."\n";
