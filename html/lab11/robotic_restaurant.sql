@@ -28,6 +28,9 @@ CREATE TABLE Franchises (
     FranchiseZIP            VARCHAR(5)
 );
 
+INSERT INTO Franchises (FranchiseLocationLat, FranchiseLocationLon, FranchiseStreet, FranchiseCity, FranchiseState, FranchiseZIP)
+VALUES  (0, 0, "600 West Walnut Street", "Danville", "KY", "40422");
+
 CREATE TABLE Customers (
     PRIMARY KEY             (CustomerID),
     CustomerID              INT AUTO_INCREMENT NOT NULL,
@@ -37,6 +40,9 @@ CREATE TABLE Customers (
     CustomerDefaultLat      FLOAT              NOT NULL,
     CustomerDefaultLong     FLOAT              NOT NULL
 );
+
+INSERT INTO Customers (CustomerFirstName, CustomerLastName, CustomerEmail, CustomerDefaultLat, CustomerDefaultLong)
+VALUES  ("Cooper", "Hendrix", "cooper.hendrix@centre.edu", 22, 1);
 
 CREATE TABLE Orders(
     PRIMARY KEY (OrderID), 

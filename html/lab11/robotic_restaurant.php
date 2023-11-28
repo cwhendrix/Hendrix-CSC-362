@@ -3,7 +3,7 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
     $config = parse_ini_file('/home/cooperhendrix/mysqli.ini');
-    $dbname = 'instrument_rentals';
+    $dbname = 'robo_rest_fall_2023';
     $conn = new mysqli(
             $config['mysqli.default_host'],
             $config['mysqli.default_user'],
@@ -18,7 +18,27 @@
                 // echo "Connected Successfully!" . "<br>";
                 // echo "YAY!" . "<br>";
             }
-    $result = $conn->query("SELECT DishName, DishPrice FROM Dishes;");
+    $getmenu = $conn->query("SELECT DishID, DishName, DishPrice FROM Dishes");
+    $getorders = $conn->query("SELECT OrderID, CustomerName FROM Orders
+                                LEFT JOIN Customers USING (CustomerID)");
+
+    if (isset($_POST["order"])) {
+        echo "ORDER SET\n";
+        for ($i = 0; $i <= $getmenu->num_rows; $i++) { 
+            if (isset($_POST["quantity$i"])) {
+                echo $_POST["quantity$i"]."\n";
+            }
+        }
+        if (isset($_POST["name"])) {
+            echo $_POST["name"]."\n";
+        }
+        if (isset($_POST["lat"])) {
+            echo $_POST["lat"]."\n";
+        }
+        if (isset($_POST["lon"])) {
+            echo $_POST["lon"]."\n";
+        }
+    }
 ?>
 <?php
 function result_to_html_table($result) {
@@ -32,7 +52,7 @@ function result_to_html_table($result) {
     $fields = $result->fetch_fields();
     ?>
     <!-- Description of table - - - - - - - - - - - - - - - - - - - - -->
-    <p>This table has <?php echo $num_rows; ?> and <?php echo $num_cols; ?> columns.</p>
+    <p>This table has <?php echo $num_rows; ?> rows and <?php echo $num_cols; ?> columns.</p>
     
     <!-- Begin header - - - - - - - - - - - - - - - - - - - - -->
     <table>
@@ -41,7 +61,7 @@ function result_to_html_table($result) {
     <?php for ($i=0; $i<$num_cols; $i++){ ?>
         <td><b><?php echo $fields[$i]->name; ?></b></td>
     <?php } ?>
-    <th> <?php echo "Delete?" ?> </th>
+    <th> <?php echo "Quantity" ?> </th>
     </tr>
     </thead>
     
@@ -53,9 +73,10 @@ function result_to_html_table($result) {
         <?php for($j=0; $j<$num_cols; $j++){ ?>
             <td><?php echo $result_body[$i][$j]; ?></td>
         <?php } ?>
-        <td><input type="checkbox"
-            name="checkbox<?php echo $id; ?>"
-            value=<?php echo $id; ?>    /></td>
+        <td><input type="text"
+            name="quantity<?php echo $id; ?>"
+            value=0
+              /></td>
         </tr>
     <?php } ?>
     </tbody></table>
@@ -68,7 +89,13 @@ function result_to_html_table($result) {
 
 <h2>Menu</h2>
 <form action="robotic_restaurant.php" method=POST>
-<?php result_to_html_table($result); ?>
+<?php result_to_html_table($getmenu); ?>
+<label for="name">Name:</label>
+<input name="name" id="db" type="text">
+<label for="lat">Latitude:</label>
+<input name="lat" id="db" type="text">
+<label for="lon">Longitude:</label>
+<input name="lon" id="db" type="text">
 <input type="submit" value="Submit Order" name = "order" method=POST/>
 </form>
 <h2>Cancel an Order</h2>
