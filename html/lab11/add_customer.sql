@@ -15,3 +15,4 @@ VALUES  (cust_fname, cust_lname, cust_email, cust_lat, cust_long);
 END;
 //
 DELIMITER ;
+GRANT EXECUTE ON PROCEDURE robo_rest_fall_2023.add_customer TO 'webuser'@'localhost';

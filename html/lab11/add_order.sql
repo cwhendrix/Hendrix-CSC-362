@@ -8,6 +8,8 @@ CREATE OR REPLACE PROCEDURE add_order(
 BEGIN
 INSERT INTO Orders (FranchiseID, CustomerID, DeliveryLocationLat, DeliveryLocationLon)
 VALUES  (1, cust_id, location_lat, location_long);
+
 END;
 //
 DELIMITER ;
+GRANT EXECUTE ON PROCEDURE robo_rest_fall_2023.add_order TO 'webuser'@'localhost';

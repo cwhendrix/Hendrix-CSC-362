@@ -88,3 +88,4 @@ CREATE TABLE DroneAssignments(
  SOURCE add_customer.sql;
  SOURCE add_order.sql;
  SOURCE add_orderdish.sql;
+ SOURCE find_id.sql;

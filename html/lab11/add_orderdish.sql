@@ -11,3 +11,4 @@ VALUES  (order_id, dish_id, dish_notes);
 END;
 //
 DELIMITER ;
+GRANT EXECUTE ON PROCEDURE robo_rest_fall_2023.add_orderdish TO 'webuser'@'localhost';

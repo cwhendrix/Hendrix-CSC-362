@@ -21,14 +21,12 @@
     $getmenu = $conn->query("SELECT DishID, DishName, DishPrice FROM Dishes");
     $getorders = $conn->query("SELECT OrderID, CustomerName FROM Orders
                                 LEFT JOIN Customers USING (CustomerID)");
+    $findID = $conn->prepare("CALL find_id(?, ?)");
 
     if (isset($_POST["order"])) {
         // echo "ORDER SET\n";
         if (isset($_POST["fname"]) && isset($_POST["lname"]) && isset($_POST["lat"]) && isset($_POST["lon"])) {
-            // echo "Create New Customer\n";
-            $customeradd = $conn->prepare("INSERT INTO Customers (CustomerFirstName, CustomerLastName, CustomerEmail, CustomerDefaultLat, CustomerDefaultLong)
-            VALUES  (?, ?, ?, ?, ?)");
-            // $customeradd = $conn->prepare("CALL add_customer(?, ?, ?, ?, ?)");
+            $customeradd = $conn->prepare("CALL add_customer(?, ?, ?, ?, ?)");
             $new_fname = $_POST["fname"];
             $new_lname = $_POST["lname"];
             $new_email = "example@gmail.com";
@@ -36,20 +34,24 @@
             $new_lon = floatval($_POST["lon"]);
             $customeradd->bind_param("sssdd", $new_fname, $new_lname, $new_email, $new_lat, $new_lon);
             $customeradd->execute();
-            // echo mysqli_insert_id($conn);    THIS GRABS THE LAST INSERTED ID INTO THE DATABASE SO YOU WILL NEED THIS
-            header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
+            // header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
         }
-        $customer_id = mysqli_insert_id($conn);
-        $orderadd = $conn->prepare("INSERT INTO Orders (FranchiseID, CustomerID, DeliveryLocationLat, DeliveryLocationLon)
-        VALUES  (1, ?, ?, ?)");
+        $findID->bind_param('ss', $new_fname, $new_lname);
+        $findID->execute();
+        $result = $findID->get_result();
+        $newIDarray = $result->fetch_assoc();
+        $customer_id = intval($newIDarray['CustomerID']);
+
+        $orderadd = $conn->prepare("CALL add_order(?, ?, ?)");
         $orderadd->bind_param('idd', $customer_id, $new_lat, $new_lon);
         $orderadd->execute();
+        
         
         for ($i = 0; $i <= $getmenu->num_rows; $i++) { 
             if (isset($_POST["quantity$i"])) {
                 //echo $_POST["quantity$i"]."\n";
                 for ($j = 1; $j <= intval($_POST["quantity$i"]); $j++) {
-                    echo "Order 1 of ID $i\n";
+                    //echo "Order 1 of ID $i\n";
                 }
             }
         }
@@ -88,7 +90,7 @@ function result_to_html_table($result) {
         <?php for($j=0; $j<$num_cols; $j++){ ?>
             <td><?php echo $result_body[$i][$j]; ?></td>
         <?php } ?>
-        <td><input type="text"
+        <td><input type="number"
             name="quantity<?php echo $id; ?>"
             value=0
               /></td>
@@ -109,9 +111,11 @@ function result_to_html_table($result) {
 <label for="lname">Last Name:</label>
 <input name="lname" id="db" type="text">
 <label for="lat">Latitude:</label>
-<input name="lat" id="db" type="text">
+<input name="lat" id="db" type="text" value=0.0>
+<!-- <input name="lat" id="db" type="text" pattern="[0-9]+.[0-9]" value=0.0> -->
 <label for="lon">Longitude:</label>
-<input name="lon" id="db" type="text">
+<input name="lon" id="db" type="text" value=0.0>
+<!-- <input name="lon" id="db" type="text" pattern="[0-9]+.[0-9]" value=0.0> -->
 <input type="submit" value="Submit Order" name = "order" method=POST/>
 </form>
 <h2>Cancel an Order</h2>
