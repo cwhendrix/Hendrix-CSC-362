@@ -85,7 +85,9 @@ CREATE TABLE DroneAssignments(
     FOREIGN KEY (OrderDishID) REFERENCES OrderDishes(OrderDishID)
  );
 
- SOURCE add_customer.sql;
- SOURCE add_order.sql;
- SOURCE add_orderdish.sql;
- SOURCE find_id.sql;
+SOURCE add_customer.sql;
+SOURCE add_order.sql;
+SOURCE add_orderdish.sql;
+SOURCE most_recent_order_for_customer.sql;
+SOURCE most_recent_order.sql;
+SOURCE most_recent_customer.sql;

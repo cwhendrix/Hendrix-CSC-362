@@ -2,6 +2,7 @@
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);   // <- this is the new addition
     $config = parse_ini_file('/home/cooperhendrix/mysqli.ini');
     $dbname = 'robo_rest_fall_2023';
     $conn = new mysqli(
@@ -19,39 +20,53 @@
                 // echo "YAY!" . "<br>";
             }
     $getmenu = $conn->query("SELECT DishID, DishName, DishPrice FROM Dishes");
-    $getorders = $conn->query("SELECT OrderID, CustomerName FROM Orders
-                                LEFT JOIN Customers USING (CustomerID)");
-    $findID = $conn->prepare("CALL find_id(?, ?)");
+    
 
     if (isset($_POST["order"])) {
         // echo "ORDER SET\n";
         if (isset($_POST["fname"]) && isset($_POST["lname"]) && isset($_POST["lat"]) && isset($_POST["lon"])) {
-            $customeradd = $conn->prepare("CALL add_customer(?, ?, ?, ?, ?)");
+            $customeradd = $conn->prepare("CALL add_customer(?, ?, ?, ?, ?, ?, ?)");
             $new_fname = $_POST["fname"];
             $new_lname = $_POST["lname"];
             $new_email = "example@gmail.com";
             $new_lat = floatval($_POST["lat"]);
             $new_lon = floatval($_POST["lon"]);
-            $customeradd->bind_param("sssdd", $new_fname, $new_lname, $new_email, $new_lat, $new_lon);
+            for ($i = 0; $i <= $getmenu->num_rows; $i++) { 
+                if (isset($_POST["quantity$i"]) && $_POST["quantity$i"] != 0) {
+                    $dish_1_id = $i;
+                    $dish_1_quant = $_POST["quantity$i"];
+                    break;
+                }
+            }
+            // Debugging output
+            // echo '$new_fname = ' . $new_fname . "\n";
+            // echo '$new_lname = ' . $new_lname . "\n";
+            // echo '$new_email = ' . $new_email . "\n";
+            // echo '$new_lat = ' . $new_lat . "\n";
+            // echo '$new_lon = ' . $new_lon . "\n";
+            // echo '$dish_1_id = ' . $dish_1_id . "\n";
+            // echo '$dish_1_quant = ' . $dish_1_quant. "\n";
+            // 
+            $customeradd->bind_param(
+                "sssdddd", 
+                $new_fname, 
+                $new_lname, 
+                $new_email, 
+                $new_lat, 
+                $new_lon, 
+                $dish_1_id, 
+                $dish_1_quant);
             $customeradd->execute();
             // header("Location: {$_SERVER['REQUEST_URI']}", true, 303);
         }
-        $findID->bind_param('ss', $new_fname, $new_lname);
-        $findID->execute();
-        $result = $findID->get_result();
-        $newIDarray = $result->fetch_assoc();
-        $customer_id = intval($newIDarray['CustomerID']);
 
-        $orderadd = $conn->prepare("CALL add_order(?, ?, ?)");
-        $orderadd->bind_param('idd', $customer_id, $new_lat, $new_lon);
-        $orderadd->execute();
-        
-        
+        $modify_order = $conn->prepare("CALL add_orderdish(?, ?, ?)");
         for ($i = 0; $i <= $getmenu->num_rows; $i++) { 
-            if (isset($_POST["quantity$i"])) {
-                //echo $_POST["quantity$i"]."\n";
+            if (isset($_POST["quantity$i"]) && $_POST["quantity$i"] != 0) {
                 for ($j = 1; $j <= intval($_POST["quantity$i"]); $j++) {
-                    //echo "Order 1 of ID $i\n";
+                    $placeholder = 0;
+                    $emptynote = "";
+                    $modify_order->bind_param('iis', $placeholder, $i, $emptynote);
                 }
             }
         }
